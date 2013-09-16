@@ -1,74 +1,38 @@
-// My interpretation of section 9.4.2
+/* chapter 9.4.2 - improved date class using member functions (of a struct)
+   to ensure that dates are initialised before use, an add_day member function
+   is also created
+
+*/
 
 #include <iostream>
-// #include "Date.h" // don't try to run before you can walk...
 
+using namespace std;
+
+/* A stuct is essentially an all public class - you cannot effectively impose
+   invariants on it's members */
 struct Date {
-  int y; // year
-  int m; // month
-  int d; // day of month
-}; 
+  int y, m, d;
+  Date (int y, int m, int d); // constructor - check validity
+  void add_day(int n); // incrememnt date by n days
+  enum Month {
+    jan = 1, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dev
+  };
+};
 
-void add_month(Date& dd, int n);
-void add_year(Date& dd, int n);
+// Date last(2000, 12, 31); colloqially initialises last
+// Date christmas = Date(1976, 12, 24); verbosely initialises christmas
+// Date birthday; error - no initialisation
 
-void init_day(Date& dd, int y, int m, int d) {
+Date::Date(int y, int m, int d) {
 
-  if (
-    (y < 2100 && y > 1900) &&
-    (m < 13   && m > 0   ) &&
-    (d < 32   && d > 0   )) {
-
-    dd.y = y;
-    dd.m = m;
-    dd.d = d;
-  }
-  else {
-    std::cout << "Invalid Date" << std::endl;
-  }
+  // ... need to check constraints and initialise
 }
 
-void add_day(Date&dd, int n) {
-  
-  int last_day_of_month = 31;
-  
-  if (dd.d == last_day_of_month) {
-    add_month(dd, 1);
-    dd.d = 0;
-  }
-  else {
-    dd.d += n;
-  }
-}
+void Date::add_day(int n) {
 
-void add_month(Date&dd, int n) {
-
-  int last_month_of_year = 12;
-
-  if (dd.m == last_month_of_year) {
-
-    add_year(dd, 1);
-    dd.m = 0;
-  }
-
-  else {
-    dd.m += n;
-  }
-}
-
-void add_year(Date&dd, int n) {
-
-  dd.y += n;
+  // need to implement
 }
 
 int main() {
-  Date today;
-
-  init_day(today, 2005, 6, 5);
-
-  Date tomorrow = today;
-  add_day(tomorrow, 1);
-
-   return 0;
- }
-
+  return 0;
+}
