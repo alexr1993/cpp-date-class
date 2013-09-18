@@ -1,8 +1,10 @@
-/* chapter 9.4.2 - improved date class using member functions (of a struct)
-   to ensure that dates are initialised before use, an add_day member function
-   is also created
-
-*/
+/* chapter 9.4.3 - Separated implementation from interface further by
+ * changing the struct to a class and making the class variables
+ * private
+ *
+ * now members can only be get and set using member functions.
+ *
+ */
 
 #include <iostream>
 
@@ -10,20 +12,27 @@ using namespace std;
 
 /* A stuct is essentially an all public class - you cannot effectively impose
    invariants on it's members */
-struct Date {
+class Date {
   
-  int y, m, d;
-  
+public:
+
   Date (int y, int m, int d); // constructor - check validity
   void add_day(int n); // incrememnt date by n days
   void add_month(int n);
   void add_year(int n);
+
+  int month() { return m; }
+  int day()   { return d; }
+  int year()  { return y; }
   
   enum Month {
     jan = 1, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec
   };
   
   class Invalid {};
+
+private:
+  int y, m, d;
 };
 
 // Date last(2000, 12, 31); colloqially initialises last
@@ -110,6 +119,6 @@ int main() {
   a.add_year(2);
   a.add_month(24);
   a.add_day(23);
-  cout << a.y << " " << a.m << " " << a.d << endl;
+  cout << a.year() << " " << a.month() << " " << a.day() << endl;
   return 0;
 }
