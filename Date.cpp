@@ -1,9 +1,9 @@
-/* chapter 9.4.3 - Separated implementation from interface further by
- * changing the struct to a class and making the class variables
- * private
+/* chapter 9.7.4 making some member functions const, making some 
+ * helper functions (which are not members) to practice useing 
+ * the const constraint
  *
- * now members can only be get and set using member functions.
- *
+ * Also overloaded << operator to write Date objects to ostreams
+ * nicely
  */
 
 #include <iostream>
@@ -21,9 +21,9 @@ public:
   void add_month(int n);
   void add_year(int n);
 
-  int month() { return m; }
-  int day()   { return d; }
-  int year()  { return y; }
+  int month() const { return m; }
+  int day()  const  { return d; }
+  int year() const { return y; }
   
   enum Month {
     jan = 1, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec
@@ -111,7 +111,15 @@ void Date::add_day(int n) {
 
 }
 
+Date tomorrow(const Date& d) {
+  Date tmrw = d;
+  tmrw.add_day(1);
+  return tmrw;
+}
 
+ostream& operator<<(ostream& os, Date d) {
+  return os << d.year() << "-" << d.month() << "-" << d.day();
+}
 
 int main() {
 
@@ -119,6 +127,8 @@ int main() {
   a.add_year(2);
   a.add_month(24);
   a.add_day(23);
-  cout << a.year() << " " << a.month() << " " << a.day() << endl;
+  Date b = tomorrow(a);
+  cout << a << endl;
+  cout << b << endl;
   return 0;
 }
